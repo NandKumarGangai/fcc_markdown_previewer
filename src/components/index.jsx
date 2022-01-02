@@ -1,5 +1,6 @@
-import React, { useState } from 'react'
-import Marked from 'marked';
+import React, { useState } from 'react';
+import sanitizeHtml from 'sanitize-html';
+import { marked as Marked } from 'marked';
 
 Marked.setOptions({
     "baseUrl": null,
@@ -36,14 +37,11 @@ export default function App() {
                     rows="10"
                     cols="50"
                     onChange={e => setInput(e.target.value)}
-                >
-                    {input}
-                </textarea>
+                    value={input}
+                />
             </div>
 
-            <div id="preview" dangerouslySetInnerHTML={{__html: Marked(input, { renderer: renderer })}}>
-            
-            </div>
+            <div id="preview" dangerouslySetInnerHTML={{__html: Marked(sanitizeHtml(input), { renderer: renderer })}} />
         </div>
     )
 }
